@@ -20,6 +20,7 @@ static av_cold int asif_encode_init(AVCodecContext *avctx)
  * @param shift  Bitshift (bits)
  * @param offset Sample value offset
  */
+//TODO: modify this macro
 #define ENCODE_PLANAR(type, endian, dst, n, shift, offset)              \
     n /= avctx->channels;                                               \
     for (c = 0; c < avctx->channels; c++) {                             \
