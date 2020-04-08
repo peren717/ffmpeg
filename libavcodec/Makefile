@@ -151,8 +151,6 @@ OBJS-$(CONFIG_WMA_FREQS)               += wma_freqs.o
 OBJS-$(CONFIG_WMV2DSP)                 += wmv2dsp.o
 
 # decoders/encoders
-OBJS-$(CONFIG_ASIF_DECODER)            += asifdec.o
-OBJS-$(CONFIG_ASIF_ENCODER)            += asifenc.o
 OBJS-$(CONFIG_ZERO12V_DECODER)         += 012v.o
 OBJS-$(CONFIG_A64MULTI_ENCODER)        += a64multienc.o elbg.o
 OBJS-$(CONFIG_A64MULTI5_ENCODER)       += a64multienc.o elbg.o
@@ -205,6 +203,8 @@ OBJS-$(CONFIG_APNG_ENCODER)            += png.o pngenc.o
 OBJS-$(CONFIG_ARBC_DECODER)            += arbc.o
 OBJS-$(CONFIG_SSA_DECODER)             += assdec.o ass.o
 OBJS-$(CONFIG_SSA_ENCODER)             += assenc.o ass.o
+OBJS-$(CONFIG_ASIF_DECODER)            += asifdec.o
+OBJS-$(CONFIG_ASIF_ENCODER)            += asifenc.o
 OBJS-$(CONFIG_ASS_DECODER)             += assdec.o ass.o
 OBJS-$(CONFIG_ASS_ENCODER)             += assenc.o ass.o
 OBJS-$(CONFIG_ASV1_DECODER)            += asvdec.o asv.o mpeg12data.o

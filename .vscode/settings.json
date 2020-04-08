@@ -1,6 +1,7 @@
 {
     "C_Cpp.dimInactiveRegions": true,
     "files.associations": {
-        "bytestream.h": "c"
+        "bytestream.h": "c",
+        "rawenc.h": "c"
     }
 }
