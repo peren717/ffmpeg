@@ -23,7 +23,8 @@ static int pcm_read_header(AVFormatContext *s)
 
 
     st->codecpar->codec_type  = AVMEDIA_TYPE_AUDIO;
-    st->codecpar->codec_id    = s->iformat->raw_codec_id;
+    st->codecpar->codec_id    = AV_CODEC_ID_ASIF;
+    st->codecpar->Format      = AV_SAMPLE_FMT_U8P; 
     st->codecpar->sample_rate = s1->sample_rate;
     st->codecpar->channels    = s1->channels;
 
