@@ -72,7 +72,7 @@ int asif_send_frame(AVCodecContext *avctx, const AVFrame *frame)
         for(int j=0;j<frame->nb_samples;j++)
         {
             
-            uint8_t sample = frame->extended_data[i];
+            uint8_t *sample = frame->extended_data[i];   //TODO:Pointer?
             if(my_data->channel_r[i] = NULL)
             {
                 sample_node *node;
@@ -156,26 +156,6 @@ int asif_receive_packet(AVCodecContext *avctx, AVPacket *avpkt)
 }
 
 
-// static int asif_encode_frame(AVCodecContext *avctx, AVPacket *avpkt,
-//                                 const AVFrame *frame, int *got_packet_ptr)
-// {
-//     int ret;
-//     uint8_t *buf;
-//     av_log(avctx, AV_LOG_INFO, "Executing inside of asif encoder, asif_encoder_frame\n");
-    
-//     if ((ret = ff_alloc_packet2(avctx, avpkt, 16, 16)) < 0)
-//         return ret;
-    
-//     buf = avpkt->data;
-
-//     for (int i = 4;i<16;i++)
-//         buf[i] = ' ';
-
-//     *got_packet_ptr = 1;
-//     return 0;
-// }
-
-
 static av_cold int asif_encode_close(AVCodecContext *avctx)
 {
     av_log(avctx, AV_LOG_INFO, "Executing inside of asif encoder, asif_encoder_close\n");
@@ -203,7 +183,6 @@ AVCodec ff_asif_encoder = {
     .type           = AVMEDIA_TYPE_AUDIO,
     .id             = AV_CODEC_ID_ASIF,
     .init           = asif_encode_init,
-    //.encode2        = asif_encode_frame,
     .send_frame     = asif_send_frame,
     .recieve_packet = asif_receive_packet,
     .close          = asif_encode_close,
