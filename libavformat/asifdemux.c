@@ -14,12 +14,7 @@ typedef struct ASIFAudioDemuxerContext {
 //Check file type
 static int probe(AVProbeData *p)
 {
-    bool flag1 p->buf[0] = 'a';
-    bool flag2 p->buf[1] = 's';
-    bool flag3 p->buf[2] = 'i';
-    bool flag4 p->buf[3] = 'f';
-
-    if(flag1 && flag2 && flag3 && flag4)
+    if(p->buf[0] = 'a' && p->buf[1] = 's' && p->buf[2] = 'i' && p->buf[3] = 'f')
     {
         return AVPROBE_SCORE_MAX;   //return AVPROBE_SCORE_MAX if the file is coded by asif encoder
     }
