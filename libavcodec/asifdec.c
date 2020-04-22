@@ -37,7 +37,7 @@ typedef struct ASIFDecode {
     int sample_per_channel;
 } ASIFDecode;
 
-static av_cold int pcm_decode_init(AVCodecContext *avctx)
+static av_cold int asif_decode_init(AVCodecContext *avctx)
 {
     ASIFDecode *s = avctx->priv_data;
     int i;
@@ -54,7 +54,7 @@ static av_cold int pcm_decode_init(AVCodecContext *avctx)
 }
 
 
-static int pcm_decode_frame(AVCodecContext *avctx, void *data,
+static int asif_decode_frame(AVCodecContext *avctx, void *data,
                             int *got_frame_ptr, AVPacket *avpkt)
 {
     const uint8_t *src = avpkt->data;
@@ -64,7 +64,7 @@ static int pcm_decode_frame(AVCodecContext *avctx, void *data,
     uint8_t *samples;
     
     frame->format = AV_SAMPLE_FMT_U8P;
-    frame->nb_samples = avctx->sample_per_channel;
+    frame->nb_samples = avctx->frame_size;
     frame->sample_rate = avctx->sample_rate;
     frame->channels = avctx->channels;
 
@@ -78,6 +78,7 @@ static int pcm_decode_frame(AVCodecContext *avctx, void *data,
         return AVERROR(EINVAL);
     }
 
+    int ret;
     /* get output buffer */
     if ((ret = ff_get_buffer(avctx, frame, 0)) < 0)
         return ret;
@@ -87,7 +88,7 @@ static int pcm_decode_frame(AVCodecContext *avctx, void *data,
         uint8_t *sample = frame->extended_data[i];
     
         int prevValue=0;
-        for(int j=0;j<avctx->sample_per_channel;j++)
+        for(int j=0;j<avctx->frame_size;j++)
         {
             if(j==0)
             {
@@ -111,11 +112,11 @@ static int pcm_decode_frame(AVCodecContext *avctx, void *data,
     return buf_size;
 }
 
-static av_cold int pcm_decode_close(AVCodecContext *avctx)
+static av_cold int asif_decode_close(AVCodecContext *avctx)
 {
     ASIFDecode *s = avctx->priv_data;
 
-    av_freep(&s->fdsp);
+    av_freep(&s);
 
     return 0;
 }
@@ -123,13 +124,12 @@ static av_cold int pcm_decode_close(AVCodecContext *avctx)
 
 AVCodec ff_asif_decoder = {
     .name           = "asif",
-    .pri_data_size  = sizeof(asif_encoder_data),
+    .priv_data_size  = sizeof(ASIFDecode),
     .long_name      = NULL_IF_CONFIG_SMALL("Asif decoder"),
     .type           = AVMEDIA_TYPE_AUDIO,
     .id             = AV_CODEC_ID_ASIF,
-    .init           = asif_encode_init,
+    .init           = asif_decode_init,
     .decode         = asif_decode_frame,
-    .recieve_packet = asif_receive_packet,
     .close          = asif_decode_close,
     .capabilities   = AV_CODEC_CAP_DR1,
     .sample_fmts    = (const enum AVSampleFormat[]){ AV_SAMPLE_FMT_U8P,

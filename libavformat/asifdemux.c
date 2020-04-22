@@ -40,7 +40,7 @@ static int asif_read_header(AVFormatContext *s)
 
     st->codecpar->codec_type  = AVMEDIA_TYPE_AUDIO;
     st->codecpar->codec_id    = AV_CODEC_ID_ASIF;
-    st->codecpar->Format      = AV_SAMPLE_FMT_U8P; 
+    st->codecpar->format      = AV_SAMPLE_FMT_U8P; 
     st->codecpar->sample_rate = s1->sample_rate;
     st->codecpar->channels    = s1->channels;
     
@@ -51,7 +51,7 @@ static int asif_read_header(AVFormatContext *s)
 static int asif_read_packet(AVFormatContext *s, AVPacket *p)
 {
     ASIFAudioDemuxerContext *s1 = s->priv_data;
-    int total_sample = s1->sample_per_channel * s1->channels;.
+    int total_sample = s1->sample_per_channel * s1->channels;
     AVIOContext *avio_ctx = s->pb;
     return av_get_packet(avio_ctx, p, total_sample);
 }
@@ -59,12 +59,10 @@ static int asif_read_packet(AVFormatContext *s, AVPacket *p)
 AVInputFormat ff_asif_demuxer = {
     .name           = "asif",
     .long_name      = NULL_IF_CONFIG_SMALL("asif demuxer"),
-    .priv_data_size = sizeof(PCMAudioDemuxerContext),
+    .priv_data_size = sizeof(ASIFAudioDemuxerContext),
     .read_header    = asif_read_header,
-    .read_packet    = ff_asif_read_packet,
-    .read_seek      = ff_asif_read_seek,
+    .read_packet    = asif_read_packet,
     .flags          = AVFMT_GENERIC_INDEX,
     .extensions     = "asif",
     .raw_codec_id   = AV_CODEC_ID_ASIF,
-    .priv_class     = &sln_demuxer_class,
 };
